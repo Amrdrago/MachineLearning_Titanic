@@ -6,13 +6,12 @@ from scipy.stats.mstats import winsorize
 import tkinter as tk
 from tkinter import ttk
 from tkinter import scrolledtext
-
+from sklearn.preprocessing import MinMaxScaler
 # Load the Titanic dataset
 df = pd.read_csv("titanic.csv")
-df.drop(['name', 'cabin'], axis=1, inplace=True)
+df.drop(['name', 'cabin', 'ticket'], axis=1, inplace=True)
 df['sex'] = df['sex'].map({'male': 0, 'female': 1})
-df['ticket'] = df['ticket'].str.extract(r'(\d+)$')
-df['ticket'] = pd.to_numeric(df['ticket'], errors='coerce')
+
 
 # Handling missing values
 print(df.isnull().sum())
@@ -25,9 +24,12 @@ df = pd.get_dummies(df, columns=['embarked'], drop_first=True)
 
 # Remove outliers using Winsorization
 df['age'] = winsorize(df['age'], limits=[0.05, 0.05])
+scaler = MinMaxScaler()
+df = pd.DataFrame(scaler.fit_transform(df), columns=df.columns)
 
 # Compute the correlation matrix using numeric columns only
 correlation_matrix = df.select_dtypes(include=[np.number]).corr()
+
 
 # Visualize the distribution of numerical variables using histograms
 def show_histograms():
@@ -35,12 +37,14 @@ def show_histograms():
     plt.tight_layout()
     plt.show()
 
+
 # Visualize the distribution of categorical variables using count plots
 def show_sex_distribution():
     plt.figure(figsize=(10, 6))
     sns.countplot(x='sex', data=df)
     plt.title('Distribution of Sex')
     plt.show()
+
 
 def show_embarked_distribution():
     embarked_cols = [col for col in df.columns if 'embarked' in col]
@@ -51,12 +55,14 @@ def show_embarked_distribution():
     plt.title('Distribution of Embarked')
     plt.show()
 
+
 # Visualize the correlation matrix
 def show_correlation_matrix():
     plt.figure(figsize=(10, 8))
     sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f")
     plt.title('Correlation Matrix')
     plt.show()
+
 
 # Detect and handle outliers
 def show_age_boxplot():
@@ -65,6 +71,7 @@ def show_age_boxplot():
     plt.title('Box Plot of Age')
     plt.show()
 
+
 # Check for outliers after Winsorization
 def show_age_boxplot_winsorized():
     plt.figure(figsize=(10, 6))
@@ -72,15 +79,18 @@ def show_age_boxplot_winsorized():
     plt.title('Box Plot of Age (After Winsorization)')
     plt.show()
 
+
 # Print DataFrame head
 def print_df_head():
     output_text.delete(1.0, tk.END)
     output_text.insert(tk.END, df.head().to_string())
 
+
 # Print summary statistics
 def print_summary_statistics():
     output_text.delete(1.0, tk.END)
     output_text.insert(tk.END, df.describe().to_string())
+
 
 # Print correlation matrix
 def print_correlation_matrix():
@@ -88,6 +98,7 @@ def print_correlation_matrix():
     output_text.insert(tk.END, correlation_matrix.to_string())
 
 # Now, the dataset is ready for further analysis and modeling
+
 
 # Create the main window
 root = tk.Tk()
@@ -100,10 +111,12 @@ root.state('zoomed')
 title_label = ttk.Label(root, text="Titanic Data Analysis", font=("Times", 16))
 title_label.pack(pady=10)
 
+
 # Function to set the width of the buttons
 def set_button_width(buttons, width):
     for btn in buttons:
         btn.config(width=width)
+
 
 # Create and place buttons
 buttons = []
@@ -147,12 +160,12 @@ btn_print_correlation_matrix.pack(pady=5)
 set_button_width(buttons, 30)
 
 # Create a Text widget for displaying DataFrame information
-output_text = scrolledtext.ScrolledText(root, width=100, height=20, font=("Times", 12))
+output_text = scrolledtext.ScrolledText(root, width=150, height=20, font=("Times", 12))
 output_text.pack(pady=10)
 
 # Add a label for team members at the bottom right
 team_label_text = """Amr Khaled Mohamed Hassan - 2206159
-Loay Salah Abdel Azeem - 2206155
+Loay Salah AbdelAzeem - 2206155
 Omar Momen Ahmed - 2206157
 Mickel Wassef Riad - 22010449
 Abdelrahman Jayasundara Malavi - 2206147
@@ -163,3 +176,4 @@ team_label.place(relx=1.0, rely=1.0, anchor='se', x=-10, y=-10)
 
 # Start the GUI event loop
 root.mainloop()
+df.to_csv("titanic_preprocessed.csv", index=False)
