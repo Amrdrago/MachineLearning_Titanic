@@ -3,7 +3,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, MinMaxScaler, LabelEncoder
 
 # Load the Titanic dataset
-df = pd.read_csv("train.csv")
+df = pd.read_csv("titanic.csv")
 
 # Handle missing values (as done previously)
 
