@@ -1,6 +1,6 @@
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, f1_score
 import pandas as pd
 
 
@@ -26,14 +26,22 @@ def train(dataframe, classifier):
     accuracy_test = accuracy_score(y_test, y_pred_test)
     accuracy_train = accuracy_score(y_train, y_pred_train)
 
-    print("Test Accuracy:", accuracy_test * 100, "%")
-    print("Train Accuracy:", accuracy_train * 100, "%")
+    # Calculate F1 score
+    f1_test = f1_score(y_test, y_pred_test)
+    f1_train = f1_score(y_train, y_pred_train)
+
+    print("Accuracy")
+    print("Test: {:.2f}%".format(accuracy_test * 100))
+    print("Train: {:.2f}%".format(accuracy_train * 100), '\n')
+    print("F1 Score")
+    print("Test:", f1_test)
+    print("Train:", f1_train)
 
 
 def predict(dataframe, classifier):
     nb_classifier = classifier
-    predictions = nb_classifier.predict(dataframe)
-    return predictions
+    predicts = nb_classifier.predict(dataframe)
+    return predicts
 
 
 if __name__ == '__main__':
