@@ -1,4 +1,4 @@
-pclass,name,sex,age,sibSp,parch,ticket,fare,cabin,embarked
+pclass,name,sex,age,sibsp,parch,ticket,fare,cabin,embarked
 3,"Kelly, Mr. James",male,34.5,0,0,330911,7.8292,,Q
 3,"Wilkes, Mrs. James (Ellen Needs)",female,47,1,0,363272,7,,S
 2,"Myles, Mr. Thomas Francis",male,62,0,0,240276,9.6875,,Q
