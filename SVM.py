@@ -2,6 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 import numpy as np
 
 # Step 2: Load the dataset
@@ -32,7 +33,8 @@ for C in C_values:
         svm.fit(X_train, y_train)
 
         # Evaluate accuracy on test set
-        accuracy = svm.score(X_test, y_test)
+        y_pred = svm.predict(X_test)
+        accuracy = accuracy_score(y_test, y_pred)
 
         # Update best parameters if current accuracy is better
         if accuracy > best_accuracy:
@@ -70,7 +72,19 @@ plt.ylabel(feature2)
 plt.title('SVM Decision Boundary')
 plt.show()
 
+# Calculate additional metrics
+y_pred_test = best_svm.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred_test)
+precision = precision_score(y_test, y_pred_test)
+recall = recall_score(y_test, y_pred_test)
+f1 = f1_score(y_test, y_pred_test)
 
 print("Best accuracy:", best_accuracy)
 print("Best C:", best_C)
 print("Best gamma:", best_gamma)
+print("Accuracy:", accuracy)
+print("Precision:", precision)
+print("Recall:", recall)
+print("F1 score:", f1)
+
+
