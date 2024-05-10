@@ -4,7 +4,7 @@ from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_sc
 import pandas as pd
 
 
-def train(dataframe, classifier) :
+def train(dataframe, classifier):
     # Split data into features and labels
     X = dataframe.drop(['survived'], axis=1)  # Features
     y = dataframe['survived']  # Labels
@@ -51,13 +51,13 @@ def train(dataframe, classifier) :
     print("Train:", f1_train)
 
 
-def prediction(dataframe, classifier) :
+def prediction(dataframe, classifier):
     nb_classifier = classifier
     predicts = nb_classifier.predict(dataframe)
     return predicts
 
 
-if __name__ == '__main__' :
+if __name__ == '__main__':
     # Load the dataframes ------------------------------
     df = pd.read_csv("titanic_preprocessed.csv")
     df_predict = pd.read_csv("titanic_test_preprocessed.csv")
@@ -76,4 +76,3 @@ if __name__ == '__main__' :
     df_output['survived'] = predictions
     print("\n", df_output.to_string())
     df_output.to_csv('Naive_Bayes_Predictions.csv')
-
