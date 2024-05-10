@@ -69,8 +69,8 @@ def plot_decision_boundary(classifier, X, y):
     # Plot decision boundary
     plt.contourf(xx, yy, Z, alpha=0.4)
     plt.scatter(X.iloc[:, 0], X.iloc[:, 1], c=y, s=20, edgecolor='k')
-    plt.xlabel('Feature 1')
-    plt.ylabel('Feature 2')
+    plt.xlabel('pclass')
+    plt.ylabel('sex')
     plt.title('Decision Boundary for Naive Bayes')
     plt.show()
 
