@@ -38,14 +38,13 @@ def train(dataframe, classifier):
     print("Train:", f1_train)
 
 
-def predict(dataframe, classifier):
+def prediction(dataframe, classifier):
     nb_classifier = classifier
     predicts = nb_classifier.predict(dataframe)
     return predicts
 
 
 if __name__ == '__main__':
-
     # Load the dataframes ------------------------------
     df = pd.read_csv("titanic_preprocessed.csv")
     df_predict = pd.read_csv("titanic_test_preprocessed.csv")
@@ -58,8 +57,9 @@ if __name__ == '__main__':
     train(df, naive_bayes_classifier)
 
     # Start the testing --------------------------------
-    predictions = predict(df_predict, naive_bayes_classifier)
+    predictions = prediction(df_predict, naive_bayes_classifier)
 
     # Merge the predictions with the original file -----
     df_output['survived'] = predictions
+    print("\n", df_output.to_string())
     df_output.to_csv('Naive_Bayes_Predictions.csv')
