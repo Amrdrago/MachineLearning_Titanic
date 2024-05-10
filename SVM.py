@@ -1,6 +1,8 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.svm import SVC
+import numpy as np
+import matplotlib.pyplot as plt
 
 # Step 2: Load the dataset
 df = pd.read_csv("titanic_preprocessed.csv")
@@ -57,3 +59,32 @@ df_output = pd.read_csv("test.csv")
 df_output["survived"] = predictions
 df_output.to_csv("SVM_Predictions.csv")
 print(df_output.to_string())
+
+
+X = df[['fare', 'pclass']]
+y = df['survived']
+
+# Split the data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train the SVM classifier
+svm = SVC(kernel='linear')
+svm.fit(X_train, y_train)
+
+# Create a mesh grid for plotting the decision boundary
+h = .02  # step size in the mesh
+x_min, x_max = X['fare'].min() - 1, X['fare'].max() + 1
+y_min, y_max = X['pclass'].min() - 1, X['pclass'].max() + 1
+xx, yy = np.meshgrid(np.arange(x_min, x_max, h), np.arange(y_min, y_max, h))
+
+# Plot the decision boundary
+Z = svm.predict(np.c_[xx.ravel(), yy.ravel()])
+Z = Z.reshape(xx.shape)
+
+plt.figure(figsize=(10, 6))
+plt.contourf(xx, yy, Z, alpha=0.8, cmap=plt.cm.coolwarm)
+plt.scatter(X['fare'], X['pclass'], c=y, edgecolors='k', cmap=plt.cm.coolwarm)
+plt.xlabel('Fare')
+plt.ylabel('Pclass')
+plt.title('SVM Decision Boundary with Fare and Pclass')
+plt.show()
