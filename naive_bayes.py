@@ -37,10 +37,9 @@ print("Train Accuracy:", accuracy_train * 100, "%")
 
 df_predict = pd.read_csv("titanic_preprocessed_test.csv")
 # Add placeholder values for the 'survived' column
-X = df_predict.drop(['pclass', 'sex', 'age', 'sibsp', 'parch', 'fare'], axis=1)
 
 # Make predictions using the trained Naive Bayes classifier
-predictions = nb_classifier.predict(X)
+predictions = nb_classifier.predict(df_predict)
 df_predict['survived'] = predictions
 # Print the predictions
 print(df_predict.to_string())
