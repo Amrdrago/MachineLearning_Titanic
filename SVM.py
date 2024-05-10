@@ -1,5 +1,5 @@
 import pandas as pd
-from sklearn.model_selection import train_test_split,GridSearchCV
+from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.svm import SVC
 
 # Step 2: Load the dataset
@@ -22,8 +22,6 @@ test_accuracy = svm.score(X_test, y_test)
 
 print("Training Accuracy:", train_accuracy)
 print("Test Accuracy:", test_accuracy)
-
-
 
 # Define the parameter grid to search
 param_grid = {
