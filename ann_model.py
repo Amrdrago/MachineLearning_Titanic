@@ -81,14 +81,14 @@ X_train_ann_scaled, X_test_ann_scaled, y_train_ann, y_test_ann = ann_model.prepr
 ann_model.build_model()
 ann_model.train_model(X_train_ann_scaled, y_train_ann)
 
+ann_model.plot_metrics()
+
 # Evaluate the model
 accuracy, precision, recall, f1 = ann_model.evaluate_model(X_test_ann_scaled, y_test_ann)
 print(f"Accuracy on testing set: {accuracy:.4f}")
 print(f"Precision on testing set: {precision:.4f}")
 print(f"Recall on testing set: {recall:.4f}")
 print(f"F1-score on testing set: {f1:.4f}")
-
-ann_model.plot_metrics()
 
 # Prediction on new data
 df_predict = pd.read_csv("titanic_test_preprocessed.csv")

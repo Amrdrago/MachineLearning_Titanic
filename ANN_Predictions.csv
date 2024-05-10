@@ -4,7 +4,7 @@ pclass,name,sex,age,sibsp,parch,ticket,fare,cabin,embarked,survived
 2,"Myles, Mr. Thomas Francis",male,62.0,0,0,240276,9.6875,,Q,0
 3,"Wirz, Mr. Albert",male,27.0,0,0,315154,8.6625,,S,0
 3,"Hirvonen, Mrs. Alexander (Helga E Lindqvist)",female,22.0,1,1,3101298,12.2875,,S,0
-3,"Svensson, Mr. Johan Cervin",male,14.0,0,0,7538,9.225,,S,0
+3,"Svensson, Mr. Johan Cervin",male,14.0,0,0,7538,9.225,,S,1
 3,"Connolly, Miss. Kate",female,30.0,0,0,330972,7.6292,,Q,1
 2,"Caldwell, Mr. Albert Francis",male,26.0,1,1,248738,29.0,,S,0
 3,"Abrahim, Mrs. Joseph (Sophie Halaut Easu)",female,18.0,0,0,2657,7.2292,,C,1
