@@ -45,15 +45,21 @@ def predict(dataframe, classifier):
 
 
 if __name__ == '__main__':
-    # Load the dataframes
+
+    # Load the dataframes ------------------------------
     df = pd.read_csv("titanic_preprocessed.csv")
     df_predict = pd.read_csv("titanic_test_preprocessed.csv")
-    df_outputted = pd.read_csv("test.csv")
-    # Load the classifier
+    df_output = pd.read_csv("test.csv")
+
+    # Load the classifier ------------------------------
     naive_bayes_classifier = GaussianNB()
-    # Start the training
+
+    # Start the training -------------------------------
     train(df, naive_bayes_classifier)
-    # Start the testing
+
+    # Start the testing --------------------------------
     predictions = predict(df_predict, naive_bayes_classifier)
-    df_outputted['survived'] = predictions
-    df_outputted.to_csv('Naive_Bayes_Predictions.csv')
+
+    # Merge the predictions with the original file -----
+    df_output['survived'] = predictions
+    df_output.to_csv('Naive_Bayes_Predictions.csv')
