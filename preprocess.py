@@ -5,7 +5,7 @@ from sklearn.preprocessing import MinMaxScaler
 
 
 def preprocess(input, output):
-    df = pd.read_csv("titanic.csv")
+    df = pd.read_csv(input)
     df.drop(['name', 'cabin', 'ticket', 'embarked'], axis=1, inplace=True)
     df['sex'] = df['sex'].map({'male': 0, 'female': 1})
 
