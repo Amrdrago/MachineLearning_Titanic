@@ -1,7 +1,9 @@
+import numpy as np
+import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
-from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 import pandas as pd
+from sklearn.naive_bayes import GaussianNB
 
 
 def train(dataframe, classifier):
@@ -49,6 +51,28 @@ def train(dataframe, classifier):
     print("F1 Score")
     print("Test:", f1_test)
     print("Train:", f1_train)
+    plot_decision_boundary(nb_classifier, X_train, y_train)
+
+
+def plot_decision_boundary(classifier, X, y):
+    # Define ranges to plot decision boundary
+    x_min, x_max = X.iloc[:, 0].min() - 1, X.iloc[:, 0].max() + 1
+    y_min, y_max = X.iloc[:, 1].min() - 1, X.iloc[:, 1].max() + 1
+    xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.1),
+                         np.arange(y_min, y_max, 0.1))
+
+    # Predict class labels for each point in the grid
+    Z = classifier.predict(np.c_[xx.ravel(), yy.ravel(), np.zeros_like(xx.ravel()), np.zeros_like(
+        xx.ravel()), np.zeros_like(xx.ravel()), np.zeros_like(xx.ravel())])
+    Z = Z.reshape(xx.shape)
+
+    # Plot decision boundary
+    plt.contourf(xx, yy, Z, alpha=0.4)
+    plt.scatter(X.iloc[:, 0], X.iloc[:, 1], c=y, s=20, edgecolor='k')
+    plt.xlabel('pclass')
+    plt.ylabel('sex')
+    plt.title('Decision Boundary for Naive Bayes')
+    plt.show()
 
 
 def prediction(dataframe, classifier):
@@ -62,16 +86,12 @@ if __name__ == '__main__':
     df = pd.read_csv("titanic_preprocessed.csv")
     df_predict = pd.read_csv("titanic_test_preprocessed.csv")
     df_output = pd.read_csv("test.csv")
-
     # Load the classifier ------------------------------
     naive_bayes_classifier = GaussianNB()
-
     # Start the training -------------------------------
     train(df, naive_bayes_classifier)
-
-    # Start the testing --------------------------------
+    # Start the Predicting -----------------------------
     predictions = prediction(df_predict, naive_bayes_classifier)
-
     # Merge the predictions with the original file -----
     df_output['survived'] = predictions
     print("\n", df_output.to_string())
