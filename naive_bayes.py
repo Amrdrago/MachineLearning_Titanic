@@ -76,3 +76,4 @@ if __name__ == '__main__' :
     df_output['survived'] = predictions
     print("\n", df_output.to_string())
     df_output.to_csv('Naive_Bayes_Predictions.csv')
+
