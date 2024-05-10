@@ -1,8 +1,10 @@
+import numpy as np
+import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
+from sklearn.decomposition import PCA
 import pandas as pd
-
 
 def train(dataframe, classifier):
     # Split data into features and labels
@@ -41,21 +43,40 @@ def train(dataframe, classifier):
     print("Test: {:.2f}%".format(accuracy_test * 100))
     print("Train: {:.2f}%".format(accuracy_train * 100), '\n')
     print("Precision")
-    print("Test:", precision_test)
-    print("Train:", precision_train, '\n')
+    print("Test: {:.2f}%".format(precision_test * 100))
+    print("Train: {:.2f}%".format(precision_train * 100), '\n')
     print("Recall")
-    print("Test:", recall_test)
-    print("Train:", recall_train, '\n')
+    print("Test: {:.2f}%".format(recall_test * 100))
+    print("Train: {:.2f}%".format(recall_train * 100), '\n')
     print("F1 Score")
-    print("Test:", f1_test)
-    print("Train:", f1_train)
+    print("Test: {:.2f}%".format(f1_test * 100))
+    print("Train: {:.2f}%".format(f1_train * 100))
 
+    return nb_classifier, X_train, y_train
 
-def prediction(dataframe, classifier):
-    nb_classifier = classifier
-    predicts = nb_classifier.predict(dataframe)
-    return predicts
+def plot_decision_boundary(X, y, classifier):
+    # Reduce features to 2 dimensions
+    pca = PCA(n_components=2)
+    X_reduced = pca.fit_transform(X)
 
+    # Plot the decision boundary
+    h = .02  # step size in the mesh
+    x_min, x_max = X_reduced[:, 0].min() - 1, X_reduced[:, 0].max() + 1
+    y_min, y_max = X_reduced[:, 1].min() - 1, X_reduced[:, 1].max() + 1
+    xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
+                         np.arange(y_min, y_max, h))
+    Z = classifier.predict(np.c_[xx.ravel(), yy.ravel()])
+
+    # Put the result into a color plot
+    Z = Z.reshape(xx.shape)
+    plt.contourf(xx, yy, Z, alpha=0.8)
+
+    # Plot the training points
+    plt.scatter(X_reduced[:, 0], X_reduced[:, 1], c=y, edgecolors='k', cmap=plt.cm.Paired)
+    plt.xlabel('Principal Component 1')
+    plt.ylabel('Principal Component 2')
+    plt.title('Decision Boundary of Naive Bayes Classifier')
+    plt.show()
 
 if __name__ == '__main__':
     # Load the dataframes ------------------------------
@@ -67,10 +88,10 @@ if __name__ == '__main__':
     naive_bayes_classifier = GaussianNB()
 
     # Start the training -------------------------------
-    train(df, naive_bayes_classifier)
+    classifier, X_train, y_train = train(df, naive_bayes_classifier)
 
     # Start the testing --------------------------------
-    predictions = prediction(df_predict, naive_bayes_classifier)
+    predictions = classifier.predict(df_predict)
 
     # Merge the predictions with the original file -----
     df_output['survived'] = predictions
