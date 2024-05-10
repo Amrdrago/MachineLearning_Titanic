@@ -29,14 +29,14 @@ test_precision = precision_score(y_test, svm.predict(X_test))
 train_recall = recall_score(y_train, svm.predict(X_train))
 test_recall = recall_score(y_test, svm.predict(X_test))
 
-print("Training Accuracy:", train_accuracy,'\n')
-print("Test Accuracy:", test_accuracy,'\n')
-print("Training Precision Score:", train_precision,'\n')
-print("Test Precision Score:", test_precision,'\n')
-print("Training Recall Score:", train_recall,'\n')
-print("Test Recall Score:", test_recall,'\n')
-print("Training F1 Score:", train_f1,'\n')
-print("Test F1 Score:", test_f1,'\n')
+print("Training Accuracy: {:.2f}%".format(train_accuracy * 100), '\n')
+print("Test Accuracy: {:.2f}%".format(test_accuracy * 100), '\n')
+print("Training Precision Score: {:.2f}%".format(train_precision * 100), '\n')
+print("Test Precision Score: {:.2f}%".format(test_precision * 100), '\n')
+print("Training Recall Score: {:.2f}%".format(train_recall * 100), '\n')
+print("Test Recall Score: {:.2f}%".format(test_recall * 100), '\n')
+print("Training F1 Score: {:.2f}%".format(train_f1 * 100), '\n')
+print("Test F1 Score: {:.2f}%".format(test_f1 * 100), '\n')
 
 # Define the parameter grid to search
 param_grid = {
@@ -56,7 +56,7 @@ best_params = grid_search.best_params_
 best_score = grid_search.best_score_
 
 print("Best Parameters:", best_params,'\n')
-print("Best Score:", best_score,'\n')
+print("Best Score: {:.2f}%".format(best_score * 100), '\n')
 
 # Use the best estimator to make predictions
 best_svm = grid_search.best_estimator_
@@ -65,10 +65,10 @@ test_f1_tuned = f1_score(y_test, best_svm.predict(X_test))
 test_precision_tuned = precision_score(y_test, best_svm.predict(X_test))
 test_recall_tuned = recall_score(y_test, best_svm.predict(X_test))
 
-print("Test Accuracy (Tuned Model):", test_accuracy_tuned,'\n')
-print("Test Precision Score (Tuned Model):", test_precision_tuned,'\n')
-print("Test Recall Score (Tuned Model):", test_recall_tuned,'\n')
-print("Test F1 Score (Tuned Model):", test_f1_tuned,'\n')
+print("Test: {:.2f}%".format(test_accuracy_tuned * 100),'\n')
+print("Test Precision Score: {:.2f}%".format(test_precision_tuned * 100),'\n')
+print("Test Recall Score: {:.2f}%".format(test_recall_tuned * 100),'\n')
+print("Test F1 Score: {:.2f}%".format(test_f1_tuned * 100),'\n')
 
 df_test = pd.read_csv("titanic_test_preprocessed.csv")
 
@@ -95,8 +95,8 @@ svm.fit(X_train, y_train)
 train_accuracy = svm.score(X_train, y_train)
 test_accuracy = svm.score(X_test, y_test)
 
-print("\nTraining Accuracy:", train_accuracy,'\n')
-print("Test Accuracy:", test_accuracy,'\n')
+print("Train: {:.2f}%".format(train_accuracy * 100), '\n')
+print("Test: {:.2f}%".format(test_accuracy * 100), '\n')
 
 # Create a mesh grid for plotting the decision boundary
 h = .02  # step size in the mesh
